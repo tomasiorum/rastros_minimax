@@ -1,0 +1,7 @@
+# ninja log v6
+21	1327	7682740735920024	CMakeFiles/rastros.dir/BitStorage.cpp.obj	60d96d6b0b25e892
+15	2627	7682740735856196	CMakeFiles/rastros.dir/Tabuleiro.cpp.obj	3759cad1270f0a49
+11	1058	7682743948211593	CMakeFiles/rastros.dir/main.cpp.obj	af02f891761a2d10
+6	356	7691255330140202	build.ninja	5e412d4ddadeb1c8
+26	3291	7682740735960159	CMakeFiles/rastros.dir/procuraRastros.cpp.obj	e05ae55959c63d50
+1058	1238	7682743958684218	rastros.exe	708ed5889093a3fa
