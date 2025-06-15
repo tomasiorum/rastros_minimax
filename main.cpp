@@ -15,8 +15,8 @@ int pvp();
 int aiVsAi();
 
 
-int jogadaSite(int64_t input, int dificuldade) {
-    Tabuleiro manual(input);
+int jogadaSite(uint64_t input, int dificuldade) {
+    Tabuleiro manual(input, 7, 7);
     int jogada=jogadaAI(manual, dificuldade,true, false, 1000);
     return jogada;
 }
@@ -188,7 +188,7 @@ void torneio() {
         std::cout<<i<<"\n";
         std::cout << "1:"<<vencedor[0]<<"\n";
         std::cout << "2:"<<vencedor[1]<<"\n";
-        Tabuleiro jogo(10, 5, 18);
+        Tabuleiro jogo(8, 7, 18);
         //jogo.historico.push_back(jogo.jogo.getValue());
         while (true) {
             jogo.imprimir();
@@ -242,11 +242,12 @@ int jogadaAI( Tabuleiro& jogo, int dificuldade, bool iterativo, bool euristica, 
 int main() {
     // Fazer um campeonato com variação de dificuldade, iterativo, euristica e tempo limite
 
-    //Tabuleiro manual(5359078464861896704);
+    Tabuleiro manual(static_cast<uint64_t>(1873497444986126337),5,5);
+    std::cout << "altura: "<<manual.altura<<"\n";
     //Tabuleiro manual(5, 5, 12);
-    //manual.imprimir();
+    manual.imprimir();
     //jogadaAI(manual, 5,true, false, 1000);
-    //return 0;
+    return 0;
     torneio();
     return 0;
     //Tabuleiro jogo(7, 7, 18);

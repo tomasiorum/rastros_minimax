@@ -24,9 +24,9 @@ int jogadaAI(Tabuleiro& jogo, int dificuldade, bool iterativo, bool euristica, i
 extern "C" {
 
 EMSCRIPTEN_KEEPALIVE // This macro tells Emscripten to keep this function, even if unreferenced from C++, and export it.
-int jogadaSite(int64_t initial_board_state, int dificuldade) {
+int jogadaSite(uint64_t initial_board_state, int dificuldade, int altura, int largura) {
     // Create the Tabuleiro object using the input from JavaScript
-    Tabuleiro manual(initial_board_state);
+    Tabuleiro manual(static_cast<uint64_t>(initial_board_state), altura, largura);
 
     // Call your existing AI logic
     // The parameters (dificuldade, iterativo, euristica, tempoLimite) are hardcoded here.

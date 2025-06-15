@@ -2,7 +2,7 @@
 // Created by topau on 15/03/2025.
 // Código gerado por Gemini 2.0
 // Classe para ler e escrever os bits de uma variável de 64 bits
-//os primeiros 50 são para guardar um jogo de 7x7. Do 51 ao 56 para o tamanho do tabuleiro.
+//os primeiros 56 são para guardar um jogo até 8x7.
 // O bit 57 servirá para registar o jogador a jogar (apesar de poder ser inferido pelo número de jogadas, mas é mais rápido consultar o bit)
 // Os últimos 6 bits registam a posição da peça:"caracol"
 
@@ -68,6 +68,7 @@ int BitStorage::getMostSignificant6Bits() const {
     return static_cast<int>((data_ >> 58) & 0x3FULL); // Shift and mask
 }
 
+/*
 void BitStorage::setTamanho(int a, int l) {
     // Store 'a' in bits 51-54
     data_ |= (static_cast<uint64_t>(a) << 51);
@@ -75,6 +76,7 @@ void BitStorage::setTamanho(int a, int l) {
     // Store 'l' in bits 53-55
     data_ |= (static_cast<uint64_t>(l) << 54);
 }
+
 
 //Get the a value
 int BitStorage::getTamanhoA() const {
@@ -84,6 +86,6 @@ int BitStorage::getTamanhoA() const {
 int BitStorage::getTamanhoL() const {
     return static_cast<int>((data_ >> 54) & 0x7ULL);
 }
-
+*/
 
 

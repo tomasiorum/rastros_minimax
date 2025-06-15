@@ -26,7 +26,7 @@ Tabuleiro::~Tabuleiro() = default;
 void Tabuleiro::inicializar(int a, int l, int inicio) {
     cursor=inicio;
     jogo.setMostSignificant6Bits(cursor);
-    jogo.setTamanho(a,l);
+    //jogo.setTamanho(a,l);
     //std::cout << "Altura:" <<jogo.getTamanhoA()<< std::endl;
     //std::cout << "Largura:" <<jogo.getTamanhoL()<< std::endl;
     casaObjetivo[0]= ordem(altura-1,0);
@@ -111,11 +111,13 @@ void Tabuleiro::jogar(int casa) {
     jogo.toggleBit(57);
 }
 
-Tabuleiro::Tabuleiro(uint64_t j) {
+Tabuleiro::Tabuleiro(uint64_t j, int altura, int largura) {
     atualiza(j);
     //jogo.setValue(j);
-    altura=jogo.getTamanhoA();
-    largura=jogo.getTamanhoL();
+    //altura=jogo.getTamanhoA();
+    //largura=jogo.getTamanhoL();
+    this->altura=altura;
+    this->largura=largura;
     inicializar(altura,largura,jogo.getMostSignificant6Bits());
 }
 

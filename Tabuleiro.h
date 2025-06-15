@@ -17,8 +17,8 @@ private:
 public:
     int altura;
     int largura;
-    int cursor;
-    int casaObjetivo[2];
+    int cursor{};
+    int casaObjetivo[2]{};
     std::set<int> preVitoria[2];
 
     //teste
@@ -31,12 +31,12 @@ public:
     /*
      * Construtor para um tabuleiro inicial
      */
-    Tabuleiro(int a, int l, int inicio);
+    explicit Tabuleiro(int a, int l, int inicio);
 
     /*
      * Construtor da classe baeseado num jogo já em curso
      */
-    explicit Tabuleiro (uint64_t j);
+    explicit Tabuleiro (uint64_t j, int altura, int largura);
 
 
     ~Tabuleiro();
