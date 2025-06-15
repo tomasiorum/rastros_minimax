@@ -13,7 +13,7 @@
 class Tabuleiro {
 private:
 
-    std::string letras[7]={"A", "B", "C", "D", "E", "F", "G"};
+    std::string letras[10]={"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 public:
     int altura;
     int largura;

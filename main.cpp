@@ -64,7 +64,7 @@ int jogarContraPC() {
             return 0;
         }
 
-        if (jogo.jogo.isBitSet(56) + 1 == jogadorPC) {
+        if (jogo.jogo.isBitSet(57) + 1 == jogadorPC) {
             std::cout << "Turno do PC (Jogador " << jogadorPC << ")" << std::endl;
             jogo.jogar(jogadaAI(jogo, dificuldade, false, true, 99999999));
         } else {
@@ -74,7 +74,7 @@ int jogarContraPC() {
             }
             int escolha;
             bool jogadaValida = false;
-            std::cout << "\n Jogador " << jogo.jogo.isBitSet(56) + 1 << " >> Escolha uma jogada: ";
+            std::cout << "\n Jogador " << jogo.jogo.isBitSet(57) + 1 << " >> Escolha uma jogada: ";
             std::cin >> escolha;
             std::cout << std::endl;
 
@@ -112,7 +112,7 @@ int pvp() {
         }
         int escolha;
         bool jogadaValida = false;
-        std::cout << "\n Jogador " << jogo.jogo.isBitSet(56) + 1 << " >> Escolha uma jogada: ";
+        std::cout << "\n Jogador " << jogo.jogo.isBitSet(57) + 1 << " >> Escolha uma jogada: ";
         std::cin >> escolha;
         std::cout << std::endl;
 
@@ -171,8 +171,8 @@ int aiVsAi() {
             return 0;
         }
 
-        std::cout << "Turno da AI Jogador " << jogo.jogo.isBitSet(56) + 1 << std::endl;
-        if (jogo.jogo.isBitSet(56) == 0) {
+        std::cout << "Turno da AI Jogador " << jogo.jogo.isBitSet(57) + 1 << std::endl;
+        if (jogo.jogo.isBitSet(57) == 0) {
             jogo.jogar(jogadaAI(jogo, dificuldade1, true, true,1000));
         } else {
             jogo.jogar(jogadaAI(jogo, dificuldade2, false, false,99000));
@@ -183,26 +183,28 @@ int aiVsAi() {
 void torneio() {
     int vencedor[]={0,0};
 
-    int dificuldade1=50 , dificuldade2=3;
+    int dificuldade1=50 , dificuldade2=50;
     for (int i=0; i<100;i++) {
         std::cout<<i<<"\n";
         std::cout << "1:"<<vencedor[0]<<"\n";
         std::cout << "2:"<<vencedor[1]<<"\n";
-        Tabuleiro jogo(7, 7, 18);
+        Tabuleiro jogo(10, 5, 18);
         //jogo.historico.push_back(jogo.jogo.getValue());
         while (true) {
-            //jogo.imprimir();
+            jogo.imprimir();
 
             if (jogo.ganhador() >= 0) {
                 vencedor[jogo.ganhador()]++;
                 break;//sair do ciclo while;
             }
 
-            //std::cout << "Turno da AI Jogador " << jogo.jogo.isBitSet(56) + 1 << std::endl;
-            if (jogo.jogo.isBitSet(56) == 0) {
-                jogo.jogar(jogadaAI(jogo, dificuldade1, true, true,2000));
+            //std::cout << "Turno da AI Jogador " << jogo.jogo.isBitSet(57) + 1 << std::endl;
+            if (jogo.jogo.isBitSet(57) == 0) {
+                jogo.jogar(jogadaAI(jogo, dificuldade1, true, false,1000));
+                std::cout << "JOga 1:"<<"\n";
             } else {
-                jogo.jogar(jogadaAI(jogo, dificuldade2, false, false,1999000));
+                jogo.jogar(jogadaAI(jogo, dificuldade2, true, false,1000));
+                std::cout << "JOga 2:"<<"\n";
             }
             //jogo.historico.push_back(jogo.jogo.getValue());
         }
@@ -240,12 +242,13 @@ int jogadaAI( Tabuleiro& jogo, int dificuldade, bool iterativo, bool euristica, 
 int main() {
     // Fazer um campeonato com variação de dificuldade, iterativo, euristica e tempo limite
 
-    Tabuleiro manual(5359078464861896704);
-    manual.imprimir();
-    jogadaAI(manual, 5,true, false, 1000);
-    return 0;
-    //torneio();
+    //Tabuleiro manual(5359078464861896704);
+    //Tabuleiro manual(5, 5, 12);
+    //manual.imprimir();
+    //jogadaAI(manual, 5,true, false, 1000);
     //return 0;
+    torneio();
+    return 0;
     //Tabuleiro jogo(7, 7, 18);
     //std::cout<<"Codigo:"<<jogo.jogo.getVa1lue();
     //jogo.imprimir();

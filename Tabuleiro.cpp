@@ -108,7 +108,7 @@ void Tabuleiro::jogar(int casa) {
     jogo.setBit(jogo.getMostSignificant6Bits());
     cursor=casa;
     jogo.setMostSignificant6Bits(casa);
-    jogo.toggleBit(56);
+    jogo.toggleBit(57);
 }
 
 Tabuleiro::Tabuleiro(uint64_t j) {
@@ -129,7 +129,7 @@ int Tabuleiro::ganhador() {
         return 1;
     }
     else if (jogadasValidas().empty()) {
-        return !(jogo.isBitSet(56));
+        return !(jogo.isBitSet(57));
     }
     return -1;
 }
@@ -170,13 +170,13 @@ std::vector<int> Tabuleiro::jogadasUteis(int jogadorA) {
 
     for (int jogada: jogadasValidas()) {
         // se for o jogadorA a jogar, e tiver vitória disponível, o vetor fica só com essa jogada.
-        if(jogo.isBitSet(56)==jogadorA && ganhador()==jogadorA) {
+        if(jogo.isBitSet(57)==jogadorA && ganhador()==jogadorA) {
             resultado.push_back(jogada);
             std::cout<<"A vitoria";
             return resultado;
         }
         //se for para avaliar a jogada do jogadorB, caso haja algum vitória do jogadorB, deve retornar vazio.
-        if(jogo.isBitSet(56)==!jogadorA && ganhador()==!jogadorA) {
+        if(jogo.isBitSet(57)==!jogadorA && ganhador()==!jogadorA) {
             std::cout<<"B vitoria";
             return resultado;
         }
@@ -191,7 +191,7 @@ int Tabuleiro::distanciaCanto(int canto) {
      * ...vetor casas[]
      * Vetor com as 49 casas, inicializadas com -1
      */
-    int casas[49];
+    int casas[50];
     for (int & casa : casas) {
         casa=-1;
     }
@@ -225,7 +225,7 @@ int Tabuleiro::distanciaCanto(int canto) {
         }
         else {
             //std::cout<<"Outro Canto "<<!canto<<" Valor:"<<casas[!canto];
-            //std::cout<<"queremos que ganhe o jogador "<<jogo.isBitSet(56)<<"\n";
+            //std::cout<<"queremos que ganhe o jogador "<<jogo.isBitSet(57)<<"\n";
 
             //imprimir();
             //analisar valores a devolver
