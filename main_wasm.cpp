@@ -31,7 +31,7 @@ int jogadaSite(uint64_t initial_board_state, int dificuldade, int altura, int la
     // Call your existing AI logic
     // The parameters (dificuldade, iterativo, euristica, tempoLimite) are hardcoded here.
     // You could also pass them from JavaScript if needed, by adding more parameters to jogadaSite.
-    int ai_move_or_result = jogadaAI(manual, dificuldade, true, false, 1000);
+    int ai_move_or_result = jogadaAI(manual, dificuldade, true, true, 1000);
 
     // Return the result to JavaScript.
     // If jogadaAI modifies 'manual' and you need to return the state of 'manual',
