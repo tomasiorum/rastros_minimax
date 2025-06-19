@@ -191,9 +191,9 @@ int Tabuleiro::distanciaCanto(int canto) {
     int fim=casaObjetivo[canto]; // o fim é a casa objetivo
     /*
      * ...vetor casas[]
-     * Vetor com as 49 casas, inicializadas com -1
+     * Vetor com as 56 casas, inicializadas com -1
      */
-    int casas[50];
+    int casas[56];
     for (int & casa : casas) {
         casa=-1;
     }
@@ -203,17 +203,12 @@ int Tabuleiro::distanciaCanto(int canto) {
       * começa no local do caracol
       *
       * expande uma linha e uma coluna:
-      *     por cada um livre, procura todos os livre agarrados, assuma x+1 (mínimo entre o valor que tiver e x+1)
+      *     por cada um livre, procura todos os livre agarrados, assume x+1 (mínimo entre o valor que tiver e x+1)
       *     repete para os livre que estavam agarrados
       */
-    int minTeorico=std::max(abs(linha(inicio)-linha(fim)),abs(coluna(fim)- coluna(inicio)));
-    int distMin=50;//std::numeric_limits<int>::max();
+    int minTeorico=std::max(abs(linha(inicio)-linha(fim)),abs(coluna(fim)- coluna(inicio))); //distância mínima ao canto. Se atingida não precisa de procurar mais
+    int distMin=56;//distãncia mínima encontrada até agora
     adjacentes(inicio, casas, distMin, fim, minTeorico);
-    //std::cout<<"Distancia: "<<distMin<<"\n";
-    for (int & casa : casas) {
-        if (casa!=-1)
-            visitadas++;
-    }
 
     //std::cout<<"Visitadas: "<<visitadas<<"\n";
     //se atinge o objetivo devolve a distância. Se não atinge devolve a distância ao objetivo inimigo. Se não atinge este também verifica se está num grupo com casas livres pares ou ímpares
@@ -221,26 +216,27 @@ int Tabuleiro::distanciaCanto(int canto) {
     // mau: não atingir o próprio e estar perto do obj. do adversário (para já não calcula esta)
     // pior: estar num grupo fechado com casas ímpares (se for grande é menos mau porque o adversário humano pode jogar mal
     // ótimo: estar num grupo fechado com casas pares
-    if (distMin==50){
-        if (casas[casaObjetivo[!canto]]!=-1) { //se o outro canto  estiver acessível é mau
-            return -200; //se o outro canto estiver acessível é muito mau
-        }
-        else {
-            //std::cout<<"Outro Canto "<<!canto<<" Valor:"<<casas[!canto];
-            //std::cout<<"queremos que ganhe o jogador "<<jogo.isBitSet(57)<<"\n";
 
-            //imprimir();
-            //analisar valores a devolver
-            if (visitadas%2!=0)
+    if (distMin==56){ //zona sem acesso ao objetivo
+        if (casas[casaObjetivo[!canto]]!=-1) { //se o outro canto  estiver acessível é mau
+            return -50;
+        }
+        else { //não está nenhum canto acessível
+            //contagem das casas no espaço encurralado
+            for (int & casa : casas) {
+                if (casa!=-1)
+                    visitadas++;
+            }
+            //Avaliação da possibilidade de encurralamento
+            if (visitadas%2!=0) //se é ímpar
                 return -100; //este jogador vai perder
             else
                 return 100; //este jogador vai ganhar//
 
         }
-
     }
     else
-        return 100-distMin; //distMin; //100-distMin; //quanto mais perto melhor
+        return 0;// H1: 100-distMin; //quanto mais perto melhor
 }
 
 void Tabuleiro::adjacentes(int origem, int *casas, int &distMin, int &destino, int &minTeorico) {
@@ -250,21 +246,27 @@ void Tabuleiro::adjacentes(int origem, int *casas, int &distMin, int &destino, i
     //ciclos for para testar a casa adjacente em todas as direções
     for (int i = std::max(0,linha(origem)-1); i <=std::min(linha(origem)+1,altura-1); i++) {
         for (int j = std::max(0,coluna(origem)-1); j <= std::min(largura-1,coluna(origem)+1); j++) {
-            if (ordem(i,j)==destino) {
-                //para fazer heuristica só a contar com espaços fechados, e neste caso ignora a distância, já que só interessa se a casa não estiver acessível
-                //distMin=minTeorico;
-                //return;
-                //-- Para a heurística considerando a distância ao ponto
+            if (ordem(i,j)==destino) { //encontrou a casa destino
+                //H2: para fazer heuristica só a contar com espaços fechados, e neste caso ignora a distância, já que só interessa se a casa não estiver acessível
+
+                distMin=minTeorico; //para não ser interpretado como espaço fechado
+
+                return;
+                //H1: -- Para a heurística considerando a distância ao ponto
                 distMin=std::min(distMin, casas[origem]+1);
             }
-            else if (ordem(i, j) != origem &&
-                not(jogo.isBitSet(ordem(i, j)))) //não é a casa que estamos a ver e não está ocupada
-                if (casas[ordem(i, j)] == -1 || casas[origem] + 1 < casas[ordem(i,
-                                                                                j)]) { //não está ocupada ou tem um valor mais alto que esta opção !!!! aqui pode ser melhorado no caso de querermos só a heuristica de encurralamento
+            else if (ordem(i, j) != origem && not(jogo.isBitSet(ordem(i, j)))) //não é a casa atual e não está ocupada
+                //H2
+                if (casas[ordem(i, j)] == -1) {
                     casas[ordem(i, j)] = casas[origem] + 1;
-
+                    adjacentes(ordem(i, j), casas, distMin, destino, minTeorico); //versão só para analisar a quantidade de casas livres
+                }
+                /* H1 versão para heurística da menor distância
+                if (casas[ordem(i, j)] == -1 || casas[origem] + 1 < casas[ordem(i, j)]) { //não está ocupada ou tem um valor mais alto que esta opção
+                    casas[ordem(i, j)] = casas[origem] + 1; //a distância da casa analisada é a distância da anterior + 1
                     adjacentes(ordem(i, j), casas, distMin, destino, minTeorico);
                 }
+                 */
         }
     }
 

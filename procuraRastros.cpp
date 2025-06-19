@@ -12,7 +12,7 @@
 void procuraRastros::iniciarExpansao() {
 
     jogadorMax=atual.jogo.isBitSet(57);
-    //std::cout<<std::endl<<"O computador vai jogar como jogador :"<<jogadorMax+1<<std::endl;
+
     int auxProfundidade=maxProfundidade;
 
     for (auto possivelJogada:atual.jogadasValidas()) {
@@ -21,17 +21,7 @@ void procuraRastros::iniciarExpansao() {
 
     if (iterativo) {
         for (int i=2; i<=auxProfundidade;i++) {
-            // mantém as jogadas válidas associadas a um estado final
-            /*
-            std::map<int, int> jogadasaux;
-            for (auto jogada:jogadas) {
-                if (abs(jogada.second)==1000) {
-                    jogadasaux.insert(jogada);
-                }
-            }
-            jogadas.clear();
-            jogadas=jogadasaux;
-            // apagar os estados não finais dos estados já visitados */
+
             for (auto it = visitados.begin(); it != visitados.end();) {
                 if (abs(it->second) <1000) {
                     it = visitados.erase(it); // 'it' now points to the next valid element
@@ -47,17 +37,6 @@ void procuraRastros::iniciarExpansao() {
     else {
         minimax(atual,0);
     }
-
-
-    /*
-    int resultadosFinal=
-    std::cout<<std::endl<<"Final:"<<resultadosFinal<<std::endl;
-
-    for (auto uma:jogadas) {
-            std::cout << uma.first << " tem Minimax: " << uma.second << "\n";
-    }
-    */
-
 }
 
 int procuraRastros::minimax(Tabuleiro estado, int profundidade) {
@@ -109,15 +88,14 @@ int procuraRastros::minimax(Tabuleiro estado, int profundidade) {
                     pontosMinimax=-1000;
                     //estado.imprimir();
                 }
-                else
-                    return 0;
-                /*
-                int heuristicaDistancia =estado.distanciaCanto(estado.jogo.isBitSet(57));
-                if (estado.jogo.isBitSet(57)==jogadorMax) {
-                    pontosMinimax=heuristicaDistancia;
+                else {
+                    int heuristicaDistancia =estado.distanciaCanto(estado.jogo.isBitSet(57));
+                    if (estado.jogo.isBitSet(57)==jogadorMax) {
+                        pontosMinimax=heuristicaDistancia;
+                    }
+                    else pontosMinimax=-heuristicaDistancia;
                 }
-                else pontosMinimax=-heuristicaDistancia;
-                */
+
             }
         }
         else if (estado.ganhador()==jogadorMax) {
