@@ -17,6 +17,8 @@ void procuraRastros::iniciarExpansao() {
 
     for (auto possivelJogada:atual.jogadasValidas()) {
         jogadas.insert({possivelJogada,0});
+        //std::cout<<"Jogada possivel inicial:"<<possivelJogada<<"\n";
+
     }
 
     if (iterativo) {
@@ -74,28 +76,28 @@ int procuraRastros::minimax(Tabuleiro estado, int profundidade) {
      *
      */
     if (profundidade==maxProfundidade||estado.ganhador()!=-1) {
-        if (estado.ganhador()==-1) {
-            pontosMinimax=0;
-            if (heuristica && estado.previtoria()!=-1) {
-                //pré-vitória/pré-derrota
-                // se for Max a jogar se estiver nas casas adjacentes às casas objetivo (do jogador MAx) ganha
-                if (estado.jogo.isBitSet(57)==jogadorMax && estado.previtoria()==jogadorMax ) {
-                    pontosMinimax=1000;
-                    //estado.imprimir();
-                }
-                //se estiver nas casas adjacentes ao objetivo inimigo e não for o max a jogar, perde
-                else if(estado.jogo.isBitSet(57)==!jogadorMax && estado.previtoria()==!jogadorMax) {
-                    pontosMinimax=-1000;
-                    //estado.imprimir();
-                }
-                else {
-                    int heuristicaDistancia =estado.distanciaCanto(estado.jogo.isBitSet(57));
-                    if (estado.jogo.isBitSet(57)==jogadorMax) {
-                        pontosMinimax=heuristicaDistancia;
-                    }
-                    else pontosMinimax=-heuristicaDistancia;
-                }
 
+        if (estado.ganhador()==-1) {
+
+            pontosMinimax=0;
+            if (estado.jogo.isBitSet(57)==jogadorMax && estado.previtoria()==jogadorMax ) {
+                pontosMinimax=1000;
+                //std::cout<<"Levou com 1000"<<"\n";
+                //estado.imprimir();
+            }
+                //se estiver nas casas adjacentes ao objetivo inimigo e não for o max a jogar, perde
+            else if(estado.jogo.isBitSet(57)==!jogadorMax && estado.previtoria()==!jogadorMax) {
+                pontosMinimax=-1000;
+                //std::cout<<"Levou com -1000"<<"\n";
+                //estado.imprimir();
+            }
+
+            else if (heuristica) {
+                int heuristicaDistancia =estado.distanciaCanto(estado.jogo.isBitSet(57));
+                if (estado.jogo.isBitSet(57)==jogadorMax) {
+                    pontosMinimax=heuristicaDistancia;
+                }
+                else pontosMinimax=-heuristicaDistancia;
             }
         }
         else if (estado.ganhador()==jogadorMax) {
@@ -108,14 +110,14 @@ int procuraRastros::minimax(Tabuleiro estado, int profundidade) {
 
     else {
 
-
         //corre as jogadas possíveis e obtem a respetiva pontuação
 
         for (int novaJogada: estado.jogadasValidas()) {
+            //std::cout<<"Testa de:"<<estado.cursor<<" para "<<novaJogada<<"\n";
             profAtingida=std::max(profAtingida,profundidade);
             Tabuleiro novoEstado=estado;
             novoEstado.jogar(novaJogada); //avança uma jogada
-
+            //novoEstado.imprimir();
             int pontosFilhos= minimax(novoEstado,profundidade+1); //verifica o resultado da jogada
 
             if (estado.jogo.isBitSet(57)==jogadorMax) {
@@ -155,6 +157,7 @@ int procuraRastros::minimax(Tabuleiro estado, int profundidade) {
     * se o nível é o nível 1, adiciona ao vetor jogadas, com a respetiva pontuação, para ser escolhido
     */
     if (profundidade==1) {
+        //std::cout<<"Guarda a jogada :"<<estado.jogo.getMostSignificant6Bits()<<" com pontos :"<<pontosMinimax<<"\n";
         auto it = jogadas.find(estado.jogo.getMostSignificant6Bits());
         if (it == jogadas.end()) {
             // Key doesn't exist, so insert the new key-value pair
@@ -165,7 +168,7 @@ int procuraRastros::minimax(Tabuleiro estado, int profundidade) {
         }
     }
 
-
+    //std::cout<<"Devolve os pontos :"<<pontosMinimax<<"\n";
     return pontosMinimax;
 }
 
@@ -178,7 +181,8 @@ int procuraRastros::procuraMelhor() {
     std::vector<int> maxKeys;
     maxKeys.push_back(jogadas.begin()->first);
 
-    for (auto it = std::next(jogadas.begin()); it != jogadas.end(); ++it) {
+    for (auto it = jogadas.begin(); it != jogadas.end(); ++it) {
+        //std::cout<<"Jogada possível:"<<it->first<<"-"<<it->second<<"\n";
         if (it->second > maxValue) {
             maxValue = it->second;
             maxKeys.clear();

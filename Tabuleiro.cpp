@@ -218,6 +218,7 @@ int Tabuleiro::distanciaCanto(int canto) {
     // ótimo: estar num grupo fechado com casas pares
 
     if (distMin==56){ //zona sem acesso ao objetivo
+        //imprimir();
         if (casas[casaObjetivo[!canto]]!=-1) { //se o outro canto  estiver acessível é mau
             return -50;
         }
@@ -240,6 +241,7 @@ int Tabuleiro::distanciaCanto(int canto) {
 }
 
 void Tabuleiro::adjacentes(int origem, int *casas, int &distMin, int &destino, int &minTeorico) {
+
     if (distMin==minTeorico)  {//se é a menor distância possível não vale a pena procurar mais (mais eficiente se a procura começar por ir para o lado do destino
         return;
     }
@@ -261,6 +263,7 @@ void Tabuleiro::adjacentes(int origem, int *casas, int &distMin, int &destino, i
                     casas[ordem(i, j)] = casas[origem] + 1;
                     adjacentes(ordem(i, j), casas, distMin, destino, minTeorico); //versão só para analisar a quantidade de casas livres
                 }
+
                 /* H1 versão para heurística da menor distância
                 if (casas[ordem(i, j)] == -1 || casas[origem] + 1 < casas[ordem(i, j)]) { //não está ocupada ou tem um valor mais alto que esta opção
                     casas[ordem(i, j)] = casas[origem] + 1; //a distância da casa analisada é a distância da anterior + 1

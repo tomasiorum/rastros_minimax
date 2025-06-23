@@ -173,9 +173,9 @@ int aiVsAi() {
 
         std::cout << "Turno da AI Jogador " << jogo.jogo.isBitSet(57) + 1 << std::endl;
         if (jogo.jogo.isBitSet(57) == 0) {
-            jogo.jogar(jogadaAI(jogo, dificuldade1, true, true,1000));
+            jogo.jogar(jogadaAI(jogo, dificuldade1, true, false,1000));
         } else {
-            jogo.jogar(jogadaAI(jogo, dificuldade2, false, false,99000));
+            jogo.jogar(jogadaAI(jogo, dificuldade2, true, true,1000));
         }
     }
 }
@@ -183,7 +183,7 @@ int aiVsAi() {
 void torneio() {
     int vencedor[]={0,0};
 
-    int dificuldade1=50 , dificuldade2=50;
+    int dificuldade1=12 , dificuldade2=56;
     for (int i=0; i<100;i++) {
         std::cout<<i<<"\n";
         std::cout << "1:"<<vencedor[0]<<"\n";
@@ -200,10 +200,10 @@ void torneio() {
 
             //std::cout << "Turno da AI Jogador " << jogo.jogo.isBitSet(57) + 1 << std::endl;
             if (jogo.jogo.isBitSet(57) == 0) {
-                jogo.jogar(jogadaAI(jogo, dificuldade1, true, true,1000));
+                jogo.jogar(jogadaAI(jogo, dificuldade1, true, false,1000));
                 //std::cout << "JOga 1:"<<"\n";
             } else {
-                jogo.jogar(jogadaAI(jogo, dificuldade2, true, false,1000));
+                jogo.jogar(jogadaAI(jogo, dificuldade2, true, false,2000));
                 //std::cout << "JOga 2:"<<"\n";
             }
             //jogo.historico.push_back(jogo.jogo.getValue());
@@ -242,11 +242,11 @@ int jogadaAI( Tabuleiro& jogo, int dificuldade, bool iterativo, bool euristica, 
 int main() {
     // Fazer um campeonato com variação de dificuldade, iterativo, euristica e tempo limite
 
-    //Tabuleiro manual(static_cast<uint64_t>(1873497444986126337),5,5);
+    //Tabuleiro manual(static_cast<uint64_t>(6341072432365047680),7,7);
     //std::cout << "altura: "<<manual.altura<<"\n";
     //Tabuleiro manual(5, 5, 12);
     //manual.imprimir();
-    //jogadaAI(manual, 5,true, false, 1000);
+    //jogadaAI(manual, 2,false, true, 1000);
     //return 0;
     torneio();
     return 0;
